@@ -1,4 +1,4 @@
-CSpect V1.07 ZXSpectrum emulator by Mike Dailly
+CSpect V1.11 ZXSpectrum emulator by Mike Dailly
 (c)1998-2018 All rights reserved
 
 Be aware...emulator is far from well tested, might crash for any reason!
@@ -6,6 +6,40 @@ Be aware...emulator is far from well tested, might crash for any reason!
 
 Whats new
 ======================================================================================
+V1.11
+-----
+Fixed Lowres window (right edge)
+You can now use long filenames in  RST $08 commands (as per NextOS), can be set back to 8.3 via command line
+Layer 2 now defaults to banks 9 and 12 as per NextOS
+Added command line option to retrun $FF from port $1f
+Fixed a possible issue in loading 128K SNA files. Last entry in stack (SP) was being wiped - this may have been pointing to ROM....
+Fixed mouse buttons return value (bit 0 for button 1, bit 1 for button 2)
+
+
+V1.10
+-----
+-cur to map cursor keys to 6789 (l/r/d/u)
+Fixed copper instruction order
+Copper fixed - and confirmed working. (changes are only visible on next line)
+Copper increased to 2K - 1024 instructions
+Fixed a bug in the AY emulation (updated source included)
+Fixed Lowres colour palette selection
+Added new "Beast" demo+source to the package to show off the copper
+
+
+V1.09
+-----
+Layer 2 is now disabled if "shadow" screen is active  (bit 3 of port $7FFD)
+Timex mode second ULA screen added (via port $FF bit 0 = 0 or 1). Second screen at $6000.
+Fixed bit ?,(ix+*) type instructions in the disassembler. All $DD,$CB and $FD,$CB prefix instructions.
+
+
+V1.08
+-----
+$123b is now readable
+Fixed cursor disappearing
+
+
 V1.07
 -----
 "Trace" text was still being drawn when window is too small.
@@ -192,8 +226,13 @@ Command line
 -s7                =  enable 7Mhz mode
 -s14               =  enable 14Mhz mode
 -s28               =  enable 28Mhz mode
--mmc=<dir>\        = enable RST $08 usage, must provide path to "root" dir of emulated SD card (eg  "-mmc=.\" or "-mmc="c:\test\")
--map=<path\file>   = SNASM format map file for use in the debugger. Local labels in the format "<primary>@<local>".
+-exit              =  to enable "EXIT" opcode of "DD 00"
+-brk               =  to enable "BREAK" opcode of "DD 01"
+-esc               =  to disable ESCAPE exit key (use exit opcode, close button or ALT+F4 to exit)
+-cur               =  to map cursor keys to 6789 (l/r/d/u)
+-8_3			   =  set filenames back to 8.3 detection
+-mmc=<dir>\        =  enable RST $08 usage, must provide path to "root" dir of emulated SD card (eg  "-mmc=.\" or "-mmc="c:\test\")
+-map=<path\file>   =  SNASM format map file for use in the debugger. Local labels in the format "<primary>@<local>".
 
 
 
@@ -263,23 +302,6 @@ Registers:
    |
    SP <value>    Set the stack register
    PC <value>    Set alternate program counter register
-
-
-
-
-Whats working?!??!
-======================================================================================
-MMU registers now working! Page in memory in 8K blocks
-Raster line reporting via registers 30/31. Raster interrupts now working.
-
-Sprite rotate, flip and mirror working as per documented, no palettes yet
-https://www.specnext.com/tbblue-io-port-system/
-https://www.specnext.com/sprites/
-
-LowRes mode (codename RadasJim)
-ULANext mode
-Layer 2 currently working, but be aware access/format subject to change!!!
-Layer 2 window mode
 
 
 
